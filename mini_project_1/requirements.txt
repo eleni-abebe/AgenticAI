@@ -1,0 +1,4 @@
+#all the necessary environment 
+streamlit
+google-generativeai
+python-dotenv
