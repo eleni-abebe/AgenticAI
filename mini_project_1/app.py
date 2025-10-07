@@ -1,12 +1,12 @@
 from dotenv import load_dotenv
-# Load all the environment variables
+# Load environment variables
 load_dotenv()
 
 # Import required libraries
-import streamlit as st  # to power the web UI
-import os               # helps access environment variables
-import sqlite3          # to interact with the database
-import google.generativeai as genai  # convert natural language to SQL queries
+import streamlit as st
+import os
+import sqlite3
+import google.generativeai as genai
 
 # Configure API
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
@@ -20,15 +20,13 @@ def get_gemini_response(question, prompt):
 # Function to execute SQL query and fetch results
 def read_sql_query(sql, db):
     conn = sqlite3.connect(db)
-    cur = conn.cursor()  # A cursor lets you send SQL commands to the database
+    cur = conn.cursor()
     cur.execute(sql)
-    rows = cur.fetchall()  # Retrieves results as a list of tuples
+    rows = cur.fetchall()
     conn.close()
-    for row in rows:
-        print(row)
     return rows
 
-# Define your prompt (unchanged)
+# Prompt (unchanged)
 prompt = [
     """
     You are an expert AI assistant specializing in converting natural language questions into SQL queries.
@@ -36,11 +34,8 @@ prompt = [
     The SQL database is named STUDENT and contains the following columns:
 
     NAME (VARCHAR)
-
     CLASS (VARCHAR)
-
     SECTION (VARCHAR)
-
     MARKS (INT)
 
     Follow these guidelines when generating SQL queries:
@@ -63,29 +58,73 @@ prompt = [
 ]
 
 # Streamlit UI
-st.set_page_config(page_title="SQL Query Generator", page_icon="🛵")
+st.set_page_config(
+    page_title="SQL Query Generator",
+    page_icon="🛵",
+    layout="wide"
+)
 
-# Display the header and logo
-st.image("123.jfif", width=200)
-st.markdown("Gemini App — your SQL assistant")
-st.markdown("Ask any question and I will generate the SQL query for you")
+# Custom CSS for styling
+st.markdown("""
+    <style>
+    .header-img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 150px;
+        border-radius: 50%;
+    }
+    .main-title {
+        text-align: center;
+        color: #4B8BBE;
+        font-size: 36px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    .subtitle {
+        text-align: center;
+        color: #306998;
+        font-size: 20px;
+        margin-bottom: 40px;
+    }
+    .stButton>button {
+        background-color: #FFD43B;
+        color: #000;
+        font-weight: bold;
+        border-radius: 10px;
+        height: 50px;
+        width: 200px;
+        font-size: 18px;
+    }
+    .stTextInput>div>div>input {
+        height: 40px;
+        font-size: 16px;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-# User input section
-question = st.text_input('Enter your query in English', key="input")
+# Header section
+st.image("123.jfif", width=150, output_format="JPEG")
+st.markdown('<div class="main-title">Gemini App</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Your SQL assistant — ask any question and I will generate the SQL query for you</div>', unsafe_allow_html=True)
 
-# Submit button
-submit = st.button("Generate SQL query")
+# Input and button in a centered container
+with st.container():
+    question = st.text_input('Enter your query in English', key="input")
+    submit = st.button("Generate SQL query")
 
-if submit:
-    # Get SQL query from Gemini
-    response = get_gemini_response(question, prompt)
-    print(response)  # corrected typo from 'resonse'
-
-    # Execute SQL query and fetch data
+# Display results in a neat table
+if submit and question.strip() != "":
+    with st.spinner("Generating SQL query..."):
+        response = get_gemini_response(question, prompt)
+    
+    st.success("✅ SQL Query Generated!")
+    st.code(response, language="sql")
+    
+    # Execute query and show data
     data = read_sql_query(response, "student.db")
-
-    # Display results in Streamlit
-    st.subheader("The response is")
-    for row in data:
-        print(row)
-        st.header(str(row))
+    if data:
+        st.subheader("Query Results")
+        st.table(data)
+    else:
+        st.warning("No results found for this query.")
