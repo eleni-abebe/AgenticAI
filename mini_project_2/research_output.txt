@@ -1,0 +1,25 @@
+ -- Research output -- 
+ Timestamp: 2025-10-09
+
+topic='Ethiopia' summary="Ethiopia, officially the Federal Democratic Republic of Ethiopia, is a landlocked country in the Horn of Africa. It has the continent's second highest population at approximately 109 million and is known for its rugged topography and unique cultural heritage. The nation has a diverse geography characterized by mountains, plateaus, and valleys, and it plays a significant role in the economy of the region, supported by various development initiatives." sources=['Wikipedia - Ethiopia', 'World Bank - Ethiopia overview'] tools_used=['functions.wikipedia', 'functions.search_web']
+
+
+-- Research Output --
+Timestamp: 2025-10-09
+
+🧠 Topic:
+Ethiopia
+
+📄 Summary:
+Ethiopia, officially the Federal Democratic Republic of Ethiopia, is a landlocked country located in the Horn of Africa. It has a rich history and is a multi-ethnic state with over 80 different ethnic groups. The nation has maintained trade and contacts with the outside world for centuries, primarily practicing Christianity with the Ethiopian Orthodox Tewahedo Church as the largest denomination. Ethiopia is known for its historical significance, including the story of its origins linked to King Solomon and the Queen of Sheba, and it symbolizes freedom and anti-colonialism. The economy began transforming under Emperor Haile Selassie I from a traditional agrarian society to a more diversified one.
+
+📚 Sources:
+- Wikipedia: Ethiopia
+- DuckDuckGo: Overview of Ethiopia's historical significance, economy, and culture
+
+🧰 Tools Used:
+- functions.wikipedia
+- functions.search_web
+
+==================================================
+
